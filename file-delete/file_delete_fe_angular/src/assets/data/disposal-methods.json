@@ -1,0 +1,19 @@
+[
+    {
+      "name": "Immerse",
+      "image": "assets/images/disposal-methods/immerse.jpeg"
+    },
+    {
+      "name": "Cremate",
+      "image": "assets/images/disposal-methods/cremate.jpeg"
+    },
+    {
+      "name": "Bury",
+      "image": "assets/images/disposal-methods/bury.jpeg"
+    },
+    {
+      "name": "Other",
+      "image": "assets/images/disposal-methods/other.jpeg"
+    }
+  ]
+  

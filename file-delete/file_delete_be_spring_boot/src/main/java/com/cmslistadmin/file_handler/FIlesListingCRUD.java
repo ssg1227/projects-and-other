@@ -1,4 +1,4 @@
-package com.cmslistadmin.content_list_crud;
+package com.cmslistadmin.file_handler;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.cmslistadmin.content_list_crud.business.FilesListing;
-import com.cmslistadmin.content_list_crud.business.FilesListingJSON;
-import com.cmslistadmin.content_list_crud.business.ImageListJSON;
-import com.cmslistadmin.content_list_crud.business.ImageList;
+import com.cmslistadmin.file_handler.business.FilesListing;
+import com.cmslistadmin.file_handler.business.FilesListingJSON;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -37,7 +35,8 @@ import org.springframework.http.ResponseEntity;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:4200")
-    public class FIlesListingCRUD {
+
+public class FIlesListingCRUD {
         @GetMapping("/listing/{term}")
         public String getFolderContent( @PathVariable("term") String term) {
         System.out.println(term);
@@ -46,6 +45,7 @@ import org.springframework.http.ResponseEntity;
     }
 @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        String uploadDir = "";
         Path path = Paths.get(uploadDir + file.getOriginalFilename());
         Files.write(path, file.getBytes());
         return ResponseEntity.ok(file.getOriginalFilename());
@@ -53,6 +53,7 @@ import org.springframework.http.ResponseEntity;
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteFile(@RequestParam String filePath) {
         try {
+          
             Path path = Paths.get(filePath).normalize();
             File file = path.toFile();
     
@@ -86,9 +87,10 @@ import org.springframework.http.ResponseEntity;
         return subContents.getFileListing(parent) ;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/listing2")
+    @RequestMapping(method = RequestMethod.GET, path = "/listing3")
     public String getFolderContent( ) {
-        return "TESR";
+        String result = "TESTING: Current time: " + java.time.LocalDateTime.now().toString();
+        return result ;
     }
      @PostMapping( path = "/move" , produces = MediaType.APPLICATION_JSON_VALUE)
     public String  moveToFolder(@RequestBody FilesListingJSON moveDetails) {

@@ -44,7 +44,7 @@
  * - Shantanu Gadkari
  */
 ///Users/shantanu/Documents/GitHub/java/utilities/cms-maint/ContentUpdate.java
-package com.cmslistadmin.content_list_crud;
+package com.cmslistadmin.file_handler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,0 +1,55 @@
+<div class="wizard-container">
+
+  <!-- Step Titles -->
+  <h2 *ngIf="step === 1">Selecting the entity to dispose</h2>
+  <h2 *ngIf="step === 2">Entity to dispose: {{ selectedFile }}</h2>
+  <h2 *ngIf="step === 3">
+    Entity to dispose: {{ selectedFile }} | Disposal: {{ disposalMethod }}
+  </h2>
+
+  <!-- Step Content -->
+  <div class="wizard-body">
+    <!-- Step 1 -->
+    <div *ngIf="step === 1">
+      <p>Select a file to dispose:</p>
+      <div class="input-row">
+        <input
+          type="text"
+          [value]="loading ? 'Loading...' : selectedFile"
+          readonly
+        />
+        <button (click)="browseFile()" [disabled]="loading">
+          {{ loading ? 'Please wait...' : 'Browse' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div *ngIf="step === 2">
+      <p>Select a disposal method:</p>
+      <div class="options">
+        <button (click)="setDisposal('Immerse')">Immerse 🌊</button>
+        <button (click)="setDisposal('Cremate')">Cremate 🔥</button>
+        <button (click)="setDisposal('Bury')">Bury ⚰️</button>
+        <button (click)="setDisposal('Other')">Other ❓</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div *ngIf="step === 3">
+      <p>Are you sure you want to dispose the file?</p>
+      <button (click)="goToLanding()">Submit</button>
+    </div>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="wizard-footer">
+    <button *ngIf="step === 1" (click)="goToLanding()">Back to Landing Page</button>
+    <button *ngIf="step === 2" (click)="prev()">Reselect file</button>
+    <button *ngIf="step === 3" (click)="goToLanding()">Back to Landing Page</button>
+
+    <button *ngIf="step < 3" (click)="next()">Next</button>
+  </div>
+
+</div>
+ 

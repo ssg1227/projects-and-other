@@ -6,11 +6,11 @@
   <h2 *ngIf="step === 3">
     Entity to dispose: {{ selectedFile }} | Disposal: {{ disposalMethod }}
   </h2>
-
+  
   <!-- Step Content -->
   <div class="wizard-body">
     <!-- Step 1 -->
-    <div *ngIf="step === 1">
+    <div *ngIf="step === 1"   >
       <p>Select a file to dispose:</p>
       <div class="input-row">
         <input
@@ -25,15 +25,22 @@
     </div>
 
     <!-- Step 2 -->
-    <div *ngIf="step === 2">
-      <p>Select a disposal method:</p>
-      <div class="options">
-        <button (click)="setDisposal('Immerse')">Immerse 🌊</button>
-        <button (click)="setDisposal('Cremate')">Cremate 🔥</button>
-        <button (click)="setDisposal('Bury')">Bury ⚰️</button>
-        <button (click)="setDisposal('Other')">Other ❓</button>
+    <div *ngIf="step === 2"  class="disposal-tab-flex-wrap">
+      <h2 class="disposal-title">Select Method of Disposal</h2>
+      
+   
+      <div class="disposal-options" class="disposal-tab-flex-wrap">
+        <div
+          class="disposal-card"
+          *ngFor="let method of disposalMethods"
+          (click)="setDisposal(method.name)"
+          [class.selected]="disposalMethod === method.name"
+        >
+          <img [src]="method.image" [alt]="method.name" />
+          <p>{{ method.name }}</p>
+        </div>
       </div>
-    </div>
+     </div>
 
     <!-- Step 3 -->
     <div *ngIf="step === 3">

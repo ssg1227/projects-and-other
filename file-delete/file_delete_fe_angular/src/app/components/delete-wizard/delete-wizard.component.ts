@@ -2,6 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FileService } from '../../services/file.service';
+import { HttpClient } from '@angular/common/http';
+
+interface DisposalMethod {
+  name: string;
+  image: string;
+}
 @Component({
   selector: 'app-delete-wizard',
   standalone: true,
@@ -11,13 +17,17 @@ import { FileService } from '../../services/file.service';
 })
 export class DeleteWizardComponent {
   loading: boolean = false;
+  disposalMethods: DisposalMethod[] = [];
 
-  constructor(private fileService:FileService) {}
+  constructor(private fileService:FileService, private http: HttpClient) {}
   step = 1;
   selectedFile = '/Users/Shantanug/Documents/testdelete.txt';
   disposalMethod: string = '';
 
   next() {
+    if (this.step === 1) {
+     this.loadDisposalMethods();
+    }
     if (this.step < 3) this.step++;
   }
 
@@ -48,44 +58,8 @@ export class DeleteWizardComponent {
       });
   }
 
+  loadDisposalMethods() {
+    this.disposalMethods = this.fileService.getDisposalMethods();
+    }
+
 }
-/*
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FileService } from '../../services/file.service';
-
-@Component({
-  selector: 'app-wizard',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './wizard.component.html',
-  styleUrls: ['./wizard.component.css'],
-})
-export class WizardComponent {
-  step = 1;
-  selectedFile: string = '';
-  disposalMethod: string = '';
-  
-  constructor(private fileService: FileService) {}
-
-  next() {
-    if (this.step < 3) this.step++;
-  }
-
-  prev() {
-    if (this.step > 1) this.step--;
-  }
-
-  goToLanding() {
-    window.location.href = '/';
-  }
-
-  setDisposal(method: string) {
-    this.disposalMethod = method;
-  }
-
-  
-}
-
-*/

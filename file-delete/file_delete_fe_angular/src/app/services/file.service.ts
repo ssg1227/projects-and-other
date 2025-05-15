@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
-
+import { disposalMethods } from '../../assets/data/disposal.methods.json';
+interface DisposalMethod {
+  name: string;
+  image: string;
+}
 @Injectable({ providedIn: 'root' })
 export class FileService {
   private files = ['a.txt', 'b.docx', 'sample.pdf'];
 
+  getDisposalMethods():DisposalMethod[] {
+    return disposalMethods;
+  }
   getMockFiles(): string[] {
     return [...this.files]; // return a copy
   }

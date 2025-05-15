@@ -20,7 +20,7 @@ export class DeleteWizardComponent {
   disposalMethods: DisposalMethod[] = [];
 
   constructor(private fileService:FileService, private http: HttpClient) {}
-  step = 1;
+  step = 0;
   selectedFile = '/Users/Shantanug/Documents/testdelete.txt';
   disposalMethod: string = '';
 
@@ -61,5 +61,21 @@ export class DeleteWizardComponent {
   loadDisposalMethods() {
     this.disposalMethods = this.fileService.getDisposalMethods();
     }
+      isSanataniOpen = false;
+      isOtherOpen = false;
+
+      toggleSanatani() {
+        this.isSanataniOpen = !this.isSanataniOpen;
+        if (this.isSanataniOpen) {
+          this.isOtherOpen = false;  // optional: close other when this opens
+        }
+      }
+
+      toggleOther() {
+        this.isOtherOpen = !this.isOtherOpen;
+        if (this.isOtherOpen) {
+          this.isSanataniOpen = false; // optional: close other when this opens
+        }
+      }
 
 }

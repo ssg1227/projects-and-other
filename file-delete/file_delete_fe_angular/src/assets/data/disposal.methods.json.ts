@@ -5,15 +5,15 @@ interface DisposalMethod {
   }
   export const disposalMethods:DisposalMethod[] =  [
     {
-      "name": "Immerse",
+      "name": "Immerse, cast respectfully into the water",
       "image": "/images/disposal-methods/immerse.webp",
     },
     {
-      "name": "Cremate",
+      "name": "Cremate, cast to fire and ash",
       "image": "/images/disposal-methods/cremate.jpeg"
     },
     {
-      "name": "Bury",
+      "name": "Bury, case to the earth",
       "image": "/images/disposal-methods/bury.jpeg"
     },
     {

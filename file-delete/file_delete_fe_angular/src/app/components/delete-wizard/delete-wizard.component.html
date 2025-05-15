@@ -1,6 +1,7 @@
 <div class="wizard-container">
 
   <!-- Step Titles -->
+  <h2 *ngIf="step === 0">Philosphy</h2>
   <h2 *ngIf="step === 1">Selecting the entity to dispose</h2>
   <h2 *ngIf="step === 2">Entity to dispose: {{ selectedFile }}</h2>
   <h2 *ngIf="step === 3">
@@ -9,6 +10,100 @@
   
   <!-- Step Content -->
   <div class="wizard-body">
+       <!-- Step 1 -->
+    <div *ngIf="step === 0"   >
+      <h2 class="disposal-title">Select Philosophy of Disposal</h2>
+      <div class="action-toggle-buttons">
+  <button
+    [class.active]="isSanataniOpen"
+    (click)="toggleSanatani()"
+  >
+    Sanatani
+  </button>
+
+  <button
+    [class.active]="isOtherOpen"
+    (click)="toggleOther()"
+  >
+    Other
+  </button>
+</div>
+
+<div *ngIf="isSanataniOpen" class="toggle-content">
+  <!-- Sanatani content goes here -->
+  <p>Sanatani disposal customs and info...</p><div class="sanatani-methods">
+  <h2>Sanātani Respectful Disposal of Religious Items</h2>
+
+  <ol>
+    <li>
+      <strong>Why Proper Disposal Matters</strong>
+      <p>
+        In Sanātani (Hindu) tradition, religious items like old scriptures (puja books, holy texts), idols, prayer beads (mala), flowers, and worn-out cloths used in worship are considered sacred. Disposing of them carelessly is seen as disrespectful to the divine.
+      </p>
+    </li>
+
+    <li>
+      <strong>Common Methods of Respectful Disposal</strong>
+      <ol type="a">
+        <li>
+          <strong>Agni (Fire) - Ritual Burning</strong>
+          <p>
+            Preferred method is to burn old scriptures and other religious items in a clean, pure fire. The burning should be done with devotion and a prayer for forgiveness if the disposal is necessary. Often performed on an auspicious day or during a puja ceremony. Fire is seen as a purifier that releases the item's sacred energy back to the cosmos.
+          </p>
+        </li>
+        <li>
+          <strong>Immersion in Water (Jala)</strong>
+          <p>
+            Items like old idols, beads, and sometimes scriptures may be immersed in flowing water like a river or the sea. Water is a purifier and returning items to a natural body is symbolic of dissolution and renewal. The water body should be clean and respected, like the Ganges or other holy rivers. Immersion is often done after a ritual prayer or chanting of mantras.
+          </p>
+        </li>
+        <li>
+          <strong>Burial in Earth (Bhoomi)</strong>
+          <p>
+            Sometimes, especially for natural materials like flower garlands or leaves used in worship, burial in the earth is practiced. Earth is also considered a purifier and nurturing element. This method is less common for scriptures but is sometimes used if burning or immersion isn't possible.
+          </p>
+        </li>
+      </ol>
+    </li>
+
+    <li>
+      <strong>Preparations and Rituals</strong>
+      <p>
+        Before disposal, it’s common to chant mantras or say prayers, asking for forgiveness and purification. The items should be clean and free of secular dirt. The disposal is often done in a temple precinct, riverbank, or a designated sacred area. Devotees may also sprinkle Ganges water or holy water over the items before disposal.
+      </p>
+    </li>
+
+    <li>
+      <strong>Items Typically Disposed Respectfully</strong>
+      <ul>
+        <li>Old or torn holy books and scriptures (like Bhagavad Gita, Ramayana, Vedas)</li>
+        <li>Worn-out idols or murti</li>
+        <li>Used prasad containers</li>
+        <li>Broken puja utensils</li>
+        <li>Old prayer beads or malas</li>
+        <li>Used clothing or fabric that has been in contact with deities or worship</li>
+      </ul>
+    </li>
+
+    <li>
+      <strong>What NOT to Do</strong>
+      <ul>
+        <li>Throwing sacred items in regular trash or landfill is discouraged.</li>
+        <li>Burning with toxic materials or in a disrespectful place.</li>
+        <li>Throwing items in dirty or stagnant water.</li>
+      </ul>
+    </li>
+  </ol>
+</div>
+
+</div>
+
+<div *ngIf="isOtherOpen" class="toggle-content">
+  <!-- Other disposal methods or info -->
+  <p>Other disposal information...</p>
+</div>
+
+    </div>
     <!-- Step 1 -->
     <div *ngIf="step === 1"   >
       <p>Select a file to dispose:</p>
@@ -51,6 +146,7 @@
 
   <!-- Navigation Buttons -->
   <div class="wizard-footer">
+    <button *ngIf="step === 0" (click)="goToLanding()">Back to Landing Page</button>
     <button *ngIf="step === 1" (click)="goToLanding()">Back to Landing Page</button>
     <button *ngIf="step === 2" (click)="prev()">Reselect file</button>
     <button *ngIf="step === 3" (click)="goToLanding()">Back to Landing Page</button>

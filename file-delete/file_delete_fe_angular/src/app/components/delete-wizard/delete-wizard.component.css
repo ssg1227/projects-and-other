@@ -108,6 +108,41 @@
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
+/* TAB 0 */
+.action-toggle-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.action-toggle-buttons button {
+  flex: 1;
+  padding: 10px 15px;
+  font-size: 1.1rem;
+  border: 2px solid #667eea;
+  border-radius: 10px;
+  background-color: white;
+  color: #667eea;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.action-toggle-buttons button.active {
+  background-color: #667eea;
+  color: white;
+  border-color: #4656b3;
+}
+
+.toggle-content {
+  padding: 1rem;
+  border: 1px solid #667eea;
+  border-radius: 10px;
+  background: rgba(102, 126, 234, 0.1);
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+/* // TAB 0 */
   /* TAB 2 DISPOSAL METHOD */
   .disposal-tab-flex-wrap {
   display: flex !important;
@@ -138,7 +173,7 @@
 }
 .disposal-card {
   width: 300px;
-  height: 350px;
+  height: 400px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.15); /* glass effect */
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -187,7 +222,7 @@
 
 .disposal-card img {
   width: 100%;
-  height: 400px;
+  height: 80%;
   object-fit: cover;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;

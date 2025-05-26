@@ -1,0 +1,29 @@
+.sidebar {
+    width:25vh;
+    min-height: 78vh;
+    margin-left: 3px;
+    margin-top: 5vh ;
+    margin-bottom: 4px;
+    background-color: #eff7f7;
+    border:2px transparent ;
+    border-radius: 3px;
+    box-shadow: 2px 3px 3px rgb(125, 200, 245);
+    z-index: 1;
+}
+.sidebar .logo {
+    background-color: #ffe6e6;
+    border:2px transparent ;
+    border-radius: 3px;
+    margin:5vh 2vh  2vh ;
+    font-size: x-small;
+}
+.logo img {
+    width: 70%;
+    object-fit: contain;
+}
+.sidebar a {
+    text-decoration: none;
+}
+.navigation {
+    font-size: smaller;
+}

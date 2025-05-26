@@ -1,0 +1,20 @@
+/src/app
+|-- /shared               # SharedModule: layout components, nav, header
+|   |-- /layout
+|   |   |-- navbar.component.ts
+|   |   |-- header.component.ts
+|   |   |-- matrix.component.ts
+|   |-- shared.module.ts
+|
+|-- /features             # Future modules (map view, analysis, etc.)
+|   |-- /distance-matrix
+|       |-- matrix.module.ts
+|       |-- matrix-routing.module.ts
+|       |-- city-matrix.component.ts
+|
+|-- /services
+|   |-- city-distance.service.ts
+|
+|-- app.component.ts
+|-- app.module.ts
+|-- app-routing.module.ts

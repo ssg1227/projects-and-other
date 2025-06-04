@@ -1,0 +1,49 @@
+.sidebar {
+    width:5vh;
+    min-height: 78vh;
+    margin-left: 3px;
+    margin-top: 5vh ;
+    margin-bottom: 4px;
+    background-color: #eff7f7;
+    border:2px transparent ;
+    border-radius: 3px;
+    box-shadow: 2px 3px 3px rgb(125, 200, 245);
+    z-index: 1;
+}
+.sidebar .logo {
+    background-color: #ffe6e6;
+    border:2px transparent ;
+    border-radius: 3px;
+    margin:5vh 2vh  2vh ;
+    font-size: x-small;
+}
+.logo img {
+    width: 70%;
+    object-fit: contain;
+}
+.sidebar a {
+    text-decoration: none;
+    color: #334433;
+    font-weight: 700;
+}
+.navigation {
+    font-size: smaller;
+    margin:1px;
+}
+.covid {
+    background-color: #effff7;
+    border:2px outset #788883 ;
+}
+.navigation ul {
+    cursor:pointer;
+    margin:10px 5px 2px 5px;
+    padding:5px 2px 3px;
+    transition: all ease 0.4 s;
+}
+.navigation li:hover {
+    background-color: #fff0f0;
+}
+
+.navigation ul li:active {
+    background-color: #0f00fa;
+}

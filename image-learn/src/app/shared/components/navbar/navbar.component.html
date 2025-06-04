@@ -1,0 +1,24 @@
+<nav class="sidebar">
+    <div class="logo">
+        <a href="#">
+            <img src="assets/test-logo.jpeg" title="PLACE" alt="PLACE">
+        </a>
+    </div>
+    <div class="navigation covid">
+        <ul class="list-unstyled">
+            <li [routerLink]="'summary'" routerLinkActive="active">
+                 Covid:Summary
+            </li>
+            <li [routerLink]="'country'" routerLinkActive="active">
+                 Covid:By Country 
+            </li><li [routerLink]="'country/continent'" routerLinkActive="active">
+                 Covid:By Continent
+            </li><li [routerLink]="'live'" routerLinkActive="active">
+                Covid:Live 
+            </li>
+              <li [routerLink]="'live/animation'" routerLinkActive="active">
+                Covid:Animation 
+            </li>
+        </ul>
+    </div>
+</nav>

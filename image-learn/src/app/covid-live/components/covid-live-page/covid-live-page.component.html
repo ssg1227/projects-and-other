@@ -1,0 +1,10 @@
+<div class="container">
+  <h2>COVID Image Player</h2>
+  <div class="image-container">
+    <img [src]="images[currentIndex]" alt="COVID Image" />
+  </div>
+  <div class="controls">
+    <button (click)="prev()">Previous</button>
+    <button (click)="next()">Next</button>
+  </div>
+</div>

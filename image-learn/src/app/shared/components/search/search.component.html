@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-7">
+
+    </div>
+    
+    <div class="col-md-5">
+        <div class="input-group mt2">
+            <input type="text" 
+                    class="form-control" 
+                    placeholder="Search:Country"
+                    [(ngModel)]="searchTerm"/>
+            <button class="btn btn-outline-success"
+                type="button"
+                (click)="search()">
+                Search
+            </button>
+              <button class="btn btn-outline-success"
+                type="button"
+                (click)="search('clear')">
+                Clear
+            </button>
+        </div>
+    </div>
+</div>  

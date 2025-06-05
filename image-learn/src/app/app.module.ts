@@ -3,24 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SharedModule } from "./shared/shared.module";
-import { CovidCountryModule } from './covid-country/covid-country.module';
-import { CovidSummaryModule } from './covid-summary/covid-summary.module';
-import { CovidLiveModule } from './covid-live/covid-live.module';
-import { HttpClientModule} from '@angular/common/http';
+import { PageLayoutModule } from './page-layout/page-layout.module';
 @NgModule({
   declarations: [
-    AppComponent, 
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    SharedModule,
-    CovidCountryModule,
-    CovidSummaryModule, 
-    CovidLiveModule,
-],
+    PageLayoutModule,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

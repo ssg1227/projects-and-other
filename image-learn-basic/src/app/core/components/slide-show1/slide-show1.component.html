@@ -1,0 +1,35 @@
+ <div class="slideshow-container">
+  <div class="image-stack">
+    <!-- Loop over images; only the “visible” index gets opacity: 1 -->
+    <img
+      *ngFor="let img of images; let i = index"
+      [src]="img"
+      [class.visible]="i === currentIndex"
+      [class.hidden]="i !== currentIndex"
+      alt="Slide {{ i + 1 }}"
+      class="slide-image"
+    />
+  </div>
+
+  <div class="controls">
+    <button class="btn" (click)="prev()">Previous</button>
+    <button class="btn" (click)="togglePlay()">
+      {{ isPlaying ? 'Pause' : 'Play' }}
+    </button>
+    <button class="btn" (click)="next()">Next</button>
+  </div>
+</div>
+<!-- static 
+  <div class="image-wrapper">
+    <img
+      [src]="images[currentIndex]"
+      alt="Slide {{ currentIndex + 1 }}"
+      class="central-image"
+    />
+  </div>
+
+  <div class="canvas-controls">
+    <button class="control-btn" (click)="prev()">Previous</button>
+    <button class="control-btn" (click)="next()">Next</button>
+  </div>
+-->

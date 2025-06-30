@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Worker Eligibility Checker</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.14.0/dist/tf.min.js"></script>
+</head>
+<body>
+  <h2>Semi Driver Eligibility Check</h2>
+  <form id="eligibilityForm">
+    <label>Name: <input type="text" id="name"></label><br>
+    <label>Age: <input type="number" id="age"></label><br>
+    <label>Date of Birth: <input type="date" id="dob"></label><br>
+    <label>SSN: <input type="text" id="ssn"></label><br><br>
+
+    <label><input type="checkbox" id="vision"> 20/20 Vision</label><br>
+    <label><input type="checkbox" id="lift"> Can lift 50 lbs or more</label><br>
+    <label><input type="checkbox" id="walk"> Can walk/run 5 km</label><br>
+    <label><input type="checkbox" id="license"> Has truck license ≥ 5 years</label><br>
+    <label><input type="checkbox" id="english"> Can read/write/understand English</label><br><br>
+  <label>Threshold = 3.00</label><br><br>
+
+    <button type="button" onclick="checkEligibility()">Check Eligibility</button>
+  </form>
+
+  <h3 id="result"></h3>
+
+  <script>
+    async function checkEligibility() {
+      const inputs = [
+        document.getElementById("vision").checked ? 1 : 0,
+        document.getElementById("lift").checked ? 1 : 0,
+        document.getElementById("walk").checked ? 1 : 0,
+        document.getElementById("license").checked ? 1 : 0,
+        document.getElementById("english").checked ? 1 : 0,
+      ];
+
+      const weights = [0.8, 0.7, 0.7, 0.8, 0.8];
+      const threshold = 3.0;
+
+      // Create a tensor for inputs and weights
+      const inputTensor = tf.tensor1d(inputs);
+      const weightTensor = tf.tensor1d(weights);
+
+      // Dot product (weighted sum)
+      const score = inputTensor.dot(weightTensor).dataSync()[0];
+
+      // Activation function: Step
+      const result = score >= threshold ? "✅ Eligible" : "❌ Not Eligible";
+
+      document.getElementById("result").innerText = 
+        `${document.getElementById("name").value}, Result: ${result} (Score: ${score.toFixed(2)})`;
+    }
+  </script>
+</body>
+</html>

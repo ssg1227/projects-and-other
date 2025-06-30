@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TensorFlow.js Legacy Canvas</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #output {
+      margin-top: 20px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>TensorFlow.js Legacy Canvas</h1>
+  <button onclick="runModel()">Run TensorFlow Code</button>
+  <ul>
+        <li>Tensors are like arrays with super powers</li>
+        <li>var tensor = tf.tensor([[1, 2], [3, 4]]);</li>
+      </ul>
+  <div id="output">
+      Run Code Output will appear here...</div>
+
+  <script>
+    function runModel() {
+      var outputDiv = document.getElementById('output');
+      outputDiv.innerText = 'Running TensorFlow code...\n';
+
+      // Use Promise-based syntax instead of async/await
+      try {
+        let outputDivInnerText = outputDiv.innerText ;
+        let tScalar = tf.scalar(6);
+        
+         outputDivInnerText   = 
+          `${outputDivInnerText} Tensor scalar ${tScalar} rank zero\n`
+        var tensor = tf.tensor([[1, 2], [3, 4]]);
+        outputDivInnerText   = 
+          `${outputDivInnerText} Tensor created:${tensor.toString()}\n`;
+        
+        var squared = tf.square(tensor);
+        outputDivInnerText   = 
+          `${outputDivInnerText} Squared Tensor:${squared.toString()}\n`;
+        outputDiv.innerText   = outputDivInnerText;
+        tf.dispose([tensor, squared]);
+      } catch (err) {
+        outputDiv.innerText += 'Error: ' + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

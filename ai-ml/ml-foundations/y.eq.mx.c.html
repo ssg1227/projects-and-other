@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<body>
+<input type="number" id="slope" placeholder="enter slope">
+<input type="number" id="intercept" placeholder="enter (y) intercept">
+<button onclick="plotUpdated()">Plot</button>
+<div id="myPlot" style="width:100%;max-width:700px"></div>
+<div id="points"></div>
+<script>
+const xValues = [];
+const yValues = [];
+function plotUpdated(){
+    var slope = document.getElementById("slope").value;
+    var intercept = document.getElementById("intercept").value;
+    alert(slope);
+  alert(intercept);
+    // Generate values
+for (let x = 0; x <= 10; x += 1) {
+  xValues.push(x);
+  yValues.push(x*  slope   + intercept);
+  
+}
+
+// Define Data
+const data = [{
+  x: xValues,
+  y: yValues,
+  mode: "lines"
+}];
+
+// Define Layout
+const layout = {title: "y = x"};
+
+// Display using Plotly
+Plotly.newPlot("myPlot", data, layout);
+
+document.getElementById("points").innerHTML = `${slope} ${intercept}`;
+}
+
+</script>
+
+</body>
+</html>

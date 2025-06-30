@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>TensorFlow.js Legacy Canvas</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #output {
+      margin-top: 20px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>TensorFlow.js Legacy Canvas</h1>
+  <button onclick="runModel()">Run TensorFlow Code</button>
+  <ul>
+        <li>Tensors are like arrays with super powers</li>
+        <li>var tensor = tf.tensor([[1, 2], [3, 4]]);</li>
+       <li>Rank = the dimension of the tensor</li>
+       <li>Typically 3 rank is a single 3d cell containing rgb values</li>
+       <li> 4 rank can be a video with time element</li>
+       <li> voxel is 3d tensor .. max dimension = 6</li>
+       <li>Tensors have Data Type and Shape</li>
+       <li>Tensorflow needs very strict data typing since memory usage has to be as efficient 
+            as possible</li>
+        <li>Shape = no of elements, Rank no of axes, size = product no of elements  </li>
+        <li>[[3,3,3], [3,3,3],] </li>
+        <li>*** tf.dispose and tf.tidy</li>
+    </ul>
+    <ul>
+  <li>
+    <strong>Array A:</strong><br>
+    <code>
+    [ <br>
+      [[1, 2], [3, 4]],<br>
+      [[5, 6], [7, 8]]<br>
+    ]
+    </code><br>
+    <ul>
+      <li><strong>Rank:</strong> 3 (3 levels of nesting)</li>
+      <li><strong>Shape:</strong> [2, 2, 2]</li>
+      <li><strong>Size:</strong> 8 (2 × 2 × 2)</li>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Array B:</strong><br>
+    <code>
+    [ <br>
+      [[10, 20, 30], [40, 50, 60]],<br>
+      [[70, 80, 90], [100, 110, 120]],<br>
+      [[130, 140, 150], [160, 170, 180]]<br>
+    ]
+    </code><br>
+    <ul>
+      <li><strong>Rank:</strong> 3</li>
+      <li><strong>Shape:</strong> [3, 2, 3]</li>
+      <li><strong>Size:</strong> 18 (3 × 2 × 3)</li>
+    </ul>
+  </li>
+</ul>
+
+  <div id="output">
+      Run Code Output will appear here...</div>
+
+  <script>
+    function runModel() {
+      var outputDiv = document.getElementById('output');
+      outputDiv.innerText = 'Running TensorFlow code...\n';
+
+      // Use Promise-based syntax instead of async/await
+      try {
+        let outputDivInnerText = outputDiv.innerText ;
+        let tScalar = tf.scalar(6);
+        
+         outputDivInnerText   = 
+          `${outputDivInnerText} Tensor scalar ${tScalar} rank zero\n`
+        var tensor = tf.tensor([[1, 2], [3, 4]]);
+        outputDivInnerText   = 
+          `${outputDivInnerText} Tensor created:${tensor.toString()}\n`;
+      var squared = tf.square(tensor);
+        outputDivInnerText   = 
+          `${outputDivInnerText} Squared Tensor:${squared.toString()}\n`;
+        let t2R = tf.tensor2d([ [1, 3, 5], [1, 2, 4]]);     
+           
+         outputDivInnerText   = 
+          `${outputDivInnerText} 2D Tensor:${t2R.toString()}\n`;
+       
+         var mScalar = tf.scalar(3); // scalar value
+      var mMatrix = tf.tensor2d([[1, 2], [3, 4]]); // 2D tensor
+
+        var result = tf.mul(mMatrix, mScalar); // element-wise multiplication
+          outputDivInnerText   = 
+          `${outputDivInnerText} Scalar Mult Tensor:${mScalar.toString()} x :${mMatrix.toString()}\n
+            = ${result.toString()}`;
+     
+           outputDiv.innerText   = outputDivInnerText;
+     
+        tf.dispose([tensor, squared, tScalar,mScalar,mMatrix]);
+      } catch (err) {
+        outputDiv.innerText += 'Error: ' + err.message;
+      }
+    }
+  </script>
+</body>
+</html>

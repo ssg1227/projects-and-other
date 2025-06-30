@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<script src="../plotlib.js"></script>
+
+<body onload="plot()">
+<canvas id="myCanvas" width="400px" height="400px" style="width:100%;max-width:400px;border:1px solid black"></canvas>
+<button id="learn">Learn</button>
+</body>
+</html>
+<script>
+  /* const plotter2 = new XYPlotter("myCanvas");
+    plotter.transformXY();
+    const xMax = plotter2.xMax;
+    const yMax = plotter.yMax;
+    const xMin = plotter.xMin;
+    const yMin = plotter.yMin;
+
+    // Create Random XY Points
+    const xPoints = [];
+    const yPoints = [];
+    for (let i = 0; i < numPoints; i++) {
+      xPoints[i] = Math.random() * xMax;
+      yPoints[i] = Math.random() * yMax;
+    }
+
+    //Plot the Points
+    plotter.plotPoints(numPoints, xPoints, yPoints, "blue");
+*/   
+// Create a Plotter
+function refresh() {
+  window.setInterval()
+}
+ 
+function plot(numPoints=500) {
+    const plotter = new XYPlotter("myCanvas");
+    plotter.transformXY();
+    const xMax = plotter.xMax;
+    const yMax = plotter.yMax;
+    const xMin = plotter.xMin;
+    const yMin = plotter.yMin;
+
+    // Create Random XY Points
+    const xPoints = [];
+    const yPoints = [];
+    for (let i = 0; i < numPoints; i++) {
+      xPoints[i] = Math.random() * xMax;
+      yPoints[i] = Math.random() * yMax;
+    }
+    function lineEq(x, init = 50) {
+      return (x* 2 + Math.random()*init) ;
+    }
+    //Plot the Points
+    plotter.plotPoints(numPoints, xPoints, yPoints, "blue"); 
+    plotter.plotLine(xMin,lineEq(xMin), xMax, lineEq(xMax));
+    isAboveOrBelow(xPoints, yPoints, lineEq);
+    function isAboveOrBelow(xPoints, yPoints, lineEq) {
+      xPoints.forEach((xPoint,index) => {
+         lineEq(xPoint) <= yPoints[index]? 
+          plotter.plotPoints(1, [xPoint], [yPoints[index]], "blue"):
+          plotter.plotPoints(1, [xPoint], [yPoints[index]], "black");
+      })
+    }
+
+}
+ 
+</script>
+</body>
+</html>

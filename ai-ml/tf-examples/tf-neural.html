@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Iris Classifier - Shallow vs Deep Neural Network</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.14.0"></script>
+</head>
+<body>
+  <h2>Iris Classifier</h2>
+
+  <label for="modelType">Choose Model:</label>
+  <select id="modelType">
+    <option value="shallow">Shallow Neural Network</option>
+    <option value="deep">Deep Neural Network</option>
+  </select>
+  <br><br>
+
+  <button onclick="trainModel()">Train Model</button>
+
+  <pre id="output"></pre>
+
+  <script>
+    // Tiny subset of Iris dataset: [sepal_length, sepal_width, petal_length, petal_width]
+    const xs_raw = [
+      [5.1, 3.5, 1.4, 0.2],
+      [7.0, 3.2, 4.7, 1.4],
+      [6.3, 3.3, 6.0, 2.5],
+      [5.0, 3.6, 1.4, 0.2],
+      [6.7, 3.1, 4.7, 1.5],
+      [7.6, 3.0, 6.6, 2.1]
+    ];
+
+    // Corresponding class indices: 0=setosa, 1=versicolor, 2=virginica
+    const ys_raw = [
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1],
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1]
+    ];
+
+    const xs = tf.tensor2d(xs_raw);
+    const ys = tf.tensor2d(ys_raw);
+
+    async function trainModel() {
+      const modelType = document.getElementById('modelType').value;
+      const output = document.getElementById('output');
+      output.textContent = `Training ${modelType} model...\n`;
+
+      const model = tf.sequential();
+
+      if (modelType === 'shallow') {
+        model.add(tf.layers.dense({ units: 10, activation: 'relu', inputShape: [4] }));
+      } else {
+        model.add(tf.layers.dense({ units: 64, activation: 'relu', inputShape: [4] }));
+        model.add(tf.layers.dense({ units: 32, activation: 'relu' }));
+        model.add(tf.layers.dense({ units: 16, activation: 'relu' }));
+      }
+
+      model.add(tf.layers.dense({ units: 3, activation: 'softmax' }));
+
+      model.compile({
+        optimizer: 'adam',
+        loss: 'categoricalCrossentropy',
+        metrics: ['accuracy']
+      });
+
+      await model.fit(xs, ys, {
+        epochs: 100,
+        callbacks: {
+          onEpochEnd: (epoch, logs) => {
+            if (epoch % 20 === 0) {
+              output.textContent += `Epoch ${epoch}: loss=${logs.loss.toFixed(4)} accuracy=${logs.acc.toFixed(4)}\n`;
+            }
+          }
+        }
+      });
+
+      const preds = model.predict(xs).argMax(-1);
+      const labels = ys.argMax(-1);
+      const accuracy = preds.equal(labels).sum().dataSync()[0] / preds.shape[0];
+
+      output.textContent += `\nFinal accuracy: ${(accuracy * 100).toFixed(2)}%\n`;
+    }
+  </script>
+</body>
+</html>

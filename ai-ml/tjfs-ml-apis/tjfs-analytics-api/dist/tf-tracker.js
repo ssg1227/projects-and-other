@@ -5,9 +5,8 @@ export class TfNavigationTracker {
     }
     setupListeners() {
         document.addEventListener('click', (e) => {
-            var _a;
             const target = e.target;
-            const sectionId = (_a = target.closest('[data-track-section]')) === null || _a === void 0 ? void 0 : _a.getAttribute('data-track-section');
+            const sectionId = target.closest('[data-track-section]')?.getAttribute('data-track-section');
             if (sectionId)
                 this.record(sectionId);
         });

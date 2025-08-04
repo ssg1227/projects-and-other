@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Tracker App with ML & Configurable History</title>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.16.0/dist/tf.min.js"></script>
+<style>
+  .screen { display: none; }
+  .visible { display: block; }
+  label { display: block; margin-top: 8px; }
+  button { margin: 4px 4px 8px 0; }
+  textarea { width: 100%; height: 100px; }
+  nav button { margin-right: 8px; }
+  #historyContainer { max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 8px; margin-top: 8px; display: none; }
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="auth-screen" class="screen visible">
+  <h2>Welcome</h2>
+  <button onclick="showRegister()">Register</button>
+  <button onclick="showProfile()">Login (Skip password)</button>
+</div>
+
+<!-- REGISTER SCREEN -->
+<div id="register-screen" class="screen">
+  <h2>Register Profile</h2>
+  <form id="registerForm">
+    <label>User ID: <input type="text" name="userId" required placeholder="Unique ID"/></label>
+    <label>Name: <input type="text" name="name" required /></label>
+    <label>DOB: <input type="date" name="dob" required /></label>
+    <label>Gender:
+      <select name="gender" required>
+        <option value="">Select</option>
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+        <option value="other">Other</option>
+      </select>
+    </label>
+    <label>Religion:
+      <select name="religion" required>
+        <option value="">Select</option>
+        <option value="hindu">Hindu</option>
+        <option value="other">Other</option>
+      </select>
+    </label>
+    <label>Deities (comma-separated, ordered): <input type="text" name="deities" placeholder="Ganesha, Krishna, Durga" /></label>
+    <label>Other Interests (comma-separated): <input type="text" name="interests" placeholder="art, transport, Mumbai" /></label>
+    <label>Predict history after
+      <input type="number" name="predictThreshold" min="10" value="10" required style="width: 60px" />
+      URLs stored (minimum 10)
+    </label>
+    <button type="submit">Save & Proceed</button>
+  </form>
+  <p id="registerStatus"></p>
+</div>
+
+<!-- PROFILE/APP SCREEN -->
+<div id="profile-screen" class="screen">
+  <h2>Dashboard</h2>
+  <nav>
+    <button onclick="showTab('learn')">Learn</button>
+    <button onclick="showTab('predict')">Predict</button>
+    <button onclick="showAuth()">Logout</button>
+  </nav>
+
+  <div id="learn-tab" class="tab">
+    <h3>Learn (Paste URLs)</h3>
+    <textarea id="urlInput" placeholder="Paste one URL per line..."></textarea>
+    <button onclick="learnUrls()">Add to History</button>
+    <p id="learnStatus"></p>
+  </div>
+
+  <div id="predict-tab" class="tab" style="display:none;">
+    <h3>Predict</h3>
+    <p>Total URLs stored for you: <span id="urlCount">0</span></p>
+    <button onclick="toggleHistory()">Show/Hide History</button>
+    <button onclick="clearHistory()">Clear History</button>
+    <div id="historyContainer"></div>
+    <button onclick="runPrediction()">Predict Next URL</button><span id="timer"
+    <p id="predictionResult"></p>
+  </div>
+</div>
+
+<script>
+  // --- Screen management ---
+  const screens = {
+    auth: document.getElementById('auth-screen'),
+    register: document.getElementById('register-screen'),
+    profile: document.getElementById('profile-screen')
+  };
+  function switchScreen(id) {
+    Object.values(screens).forEach(s => s.classList.remove('visible'));
+    screens[id].classList.add('visible');
+  }
+  function showRegister() { switchScreen('register'); }
+  function showProfile() {
+    const profile = JSON.parse(localStorage.getItem('userProfile'));
+    if (!profile || !profile.userId) return alert("No profile found. Please register.");
+    switchScreen('profile');
+    showTab('learn');
+    updateUrlCount();
+  }
+  function showAuth() { switchScreen('auth'); }
+
+  // --- Tab management ---
+  function showTab(tab) {
+    document.getElementById('learn-tab').style.display = (tab==='learn') ? 'block' : 'none';
+    document.getElementById('predict-tab').style.display = (tab==='predict') ? 'block' : 'none';
+    clearPredictionResult();
+  }
+
+  // --- Register ---
+  document.getElementById('registerForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    const profile = {};
+    data.forEach((val, key) => {
+      if (key === 'predictThreshold') {
+        profile[key] = Math.max(10, Number(val));
+      } else if (key === 'deities' || key === 'interests') {
+        profile[key] = val ? val.split(',').map(s => s.trim()) : [];
+      } else {
+        profile[key] = val.trim();
+      }
+    });
+    localStorage.setItem('userProfile', JSON.stringify(profile));
+    document.getElementById('registerStatus').textContent = "Profile saved ✅";
+    showProfile();
+  });
+
+  // --- Learn Tab ---
+  function learnUrls() {
+    const textarea = document.getElementById('urlInput');
+    const urls = textarea.value.trim().split('\n').map(s => s.trim()).filter(Boolean);
+    if (urls.length === 0) return;
+
+    const history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+    const profile = JSON.parse(localStorage.getItem('userProfile'));
+    const now = new Date();
+
+    urls.forEach(url => {
+      history.push({
+        userId: profile.userId,
+        url,
+        timestamp: now.toISOString(),
+        user: {
+          religion: profile.religion,
+          deities: profile.deities,
+          interests: profile.interests
+        }
+      });
+    });
+
+    localStorage.setItem('visitHistory', JSON.stringify(history));
+    document.getElementById('learnStatus').textContent = `${urls.length} URLs added ✅`;
+    textarea.value = '';
+    updateUrlCount();
+  }
+
+  // --- Predict Tab ---
+  function updateUrlCount() {
+    const profile = JSON.parse(localStorage.getItem('userProfile'));
+    const history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+    const userHistory = history.filter(e => e.userId === profile.userId);
+    document.getElementById('urlCount').textContent = userHistory.length;
+  }
+
+  function toggleHistory() {
+    const container = document.getElementById('historyContainer');
+    if (!container) return;
+
+    if (container.style.display === 'none' || container.style.display === '') {
+      // Show and fill
+      const profile = JSON.parse(localStorage.getItem('userProfile'));
+      const history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+      const userHistory = history.filter(e => e.userId === profile.userId);
+
+      container.innerHTML = ''; // Clear old
+      if (userHistory.length === 0) {
+        container.textContent = 'No history yet.';
+      } else {
+        userHistory.forEach((entry, i) => {
+          const date = new Date(entry.timestamp);
+          const div = document.createElement('div');
+          div.textContent = `${i+1}. ${entry.url} — ${date.toLocaleString()}`;
+          container.appendChild(div);
+        });
+      }
+      container.style.display = 'block';
+    } else {
+      container.style.display = 'none';
+    }
+  }
+
+  function clearHistory() {
+    if (!confirm("Clear all stored URL visit history for you?")) return;
+    const profile = JSON.parse(localStorage.getItem('userProfile'));
+    let history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+    history = history.filter(e => e.userId !== profile.userId);
+    localStorage.setItem('visitHistory', JSON.stringify(history));
+    updateUrlCount();
+    document.getElementById('historyContainer').style.display = 'none';
+    clearPredictionResult();
+  }
+
+  function clearPredictionResult() {
+    document.getElementById('predictionResult').textContent = '';
+  }
+
+  async function runPrediction() {
+    clearPredictionResult();
+    const profile = JSON.parse(localStorage.getItem('userProfile'));
+    const threshold = profile.predictThreshold || 10;
+
+    const history = JSON.parse(localStorage.getItem('visitHistory')) || [];
+    const userHistory = history.filter(e => e.userId === profile.userId);
+
+    if (userHistory.length < threshold) {
+      document.getElementById('predictionResult').textContent =
+        `Need at least ${threshold} URLs to predict. You have ${userHistory.length}.`;
+      return;
+    }
+
+    const urls = userHistory.map(h => h.url);
+    const uniqueUrls = [...new Set(urls)];
+    const urlToIndex = Object.fromEntries(uniqueUrls.map((u, i) => [u, i]));
+    const indexToUrl = uniqueUrls;
+
+    const inputSeq = [];
+    const outputLabels = [];
+    for (let i = 0; i < urls.length - 1; i++) {
+      inputSeq.push(urlToIndex[urls[i]]);
+      outputLabels.push(urlToIndex[urls[i+1]]);
+    }
+
+    const xs = tf.tensor2d(inputSeq.map(i => [i]));
+    const ys = tf.oneHot(outputLabels, uniqueUrls.length);
+
+    const model = tf.sequential();
+    model.add(tf.layers.dense({ units: 16, activation: 'relu', inputShape: [1] }));
+    model.add(tf.layers.dense({ units: uniqueUrls.length, activation: 'softmax' }));
+    model.compile({ loss: 'categoricalCrossentropy', optimizer: 'adam', metrics: ['accuracy'] });
+
+    await model.fit(xs, ys, { epochs: 20, verbose: 0 });
+
+    const lastUrl = urls[urls.length - 1];
+    const lastIndexTensor = tf.tensor2d([[urlToIndex[lastUrl]]]);
+    const prediction = model.predict(lastIndexTensor);
+    const predIndex = prediction.argMax(1).dataSync()[0];
+    const nextUrl = indexToUrl[predIndex];
+
+    document.getElementById('predictionResult').textContent =
+      `Based on your last visit (${lastUrl}), you might go to → ${nextUrl}`;
+  }
+</script>
+
+</body>
+</html>

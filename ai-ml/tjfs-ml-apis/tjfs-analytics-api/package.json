@@ -8,7 +8,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Here's a **step-by-step guide** to building a base **TensorFlow\\.js API** to **track user navigation behavior** that is:",
   "dependencies": {
     "@tensorflow/tfjs": "^4.22.0"
   },

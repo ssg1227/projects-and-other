@@ -1,0 +1,8 @@
+[
+  { "name": "GALLEY", "path": "modules/galley.js", "active": true },
+  { "name": "Fleet", "path": "modules/fleet.js", "active": true },
+  { "name": "Sales", "path": "modules/sales.js", "active": true },
+  { "name": "Inventory", "path": "", "active": false },
+  { "name": "Cabin Allocation", "path": "", "active": false },
+  { "name": "Booking Trends", "path": "", "active": false }
+]

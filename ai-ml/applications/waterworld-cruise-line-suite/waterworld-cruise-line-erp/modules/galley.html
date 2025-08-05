@@ -1,0 +1,15 @@
+<h3>GALLEY - Dining Predictor</h3>
+<form id="galleyForm" > <!-- </form>action="javascript:void(0);">- Prevent form submission -->
+  <label>Passenger Count:</label>
+  <input type="number" id="passengers" required value="1000"/>
+
+  <label>Demographics:</label>
+  <input type="text" id="demographics" placeholder="e.g., Families, Seniors" value="Families"/>
+
+  <label>Itinerary:</label>
+  <input type="text" id="itinerary" placeholder="Region/Season" value="Mexico"/>
+
+  <button type="submit">Predict</button>
+</form>
+<p id="galleyOutput" class="output">(Prediction output will appear here)</p>
+<p id="wait" >...</p>

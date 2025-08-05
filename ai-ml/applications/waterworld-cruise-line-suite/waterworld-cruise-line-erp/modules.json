@@ -1,0 +1,9 @@
+
+[
+  { "name": "GALLEY", "html": "erp-modules/GALLEY/index.html", "js": "erp-modules/GALLEY/scripts/js/main.js", "active": true },
+  { "name": "Fleet", "html": "erp-modules/fleet/index.html", "js": "erp-modules/fleet/scripts/js/main.js", "active": true },
+  { "name": "Sales", "html": "modules/sales.html", "js": "modules/sales.js", "active": true },
+  { "name": "Inventory", "html": "", "js": "", "active": false },
+  { "name": "Cabin Allocation", "html": "", "js": "", "active": false },
+  { "name": "Booking Trends","html": "", "js": "", "active": false }
+]

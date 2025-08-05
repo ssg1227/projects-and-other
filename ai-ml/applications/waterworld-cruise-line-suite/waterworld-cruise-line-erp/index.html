@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Waterworld ERP Neural Network</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.12.0"></script>
-  <script src="scripts/main.js"></script>
+  <meta charset="UTF-8">
+  <title>Waterworld ERP - Login</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h2>Waterworld ERP Neural Network</h2>
-  <button onclick="trainMainNetwork()">Train Main ERP Network</button>
-  <button onclick="predictERP()">Run ERP Prediction</button>
-  <button onclick="addSalesNetwork()">Attach Sales Sub-Network</button>
+  <div class="login-container">
+    <h2>Waterworld ERP Login</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <p id="loginMessage"></p>
+    </form>
+  </div>
+  <script src="scripts/js/login.js"></script>
 </body>
 </html>
